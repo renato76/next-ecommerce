@@ -1,15 +1,27 @@
-export default function Home() {
-  const message: string = "Hello World"
-  let a: AddEventListenerOptions
-  let b: NodeJS.Process
+import type { InferGetStaticPropsType } from "next"
+import getAllProducts from "../framework/shopify/product/get-all-products"
 
-  let person: Person = {
-    name: "Pedro"
+// getStaticProps pre-renders the page at build time
+export async function getStaticProps() {
+  const products = await getAllProducts()
+
+  return {
+    props: {
+      products
+    },
+    // revalidate the data every 4 hours
+    revalidate: 4 * 60 * 60
   }
+}
+
+export default function Home({
+  products
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  getAllProducts()
 
   return (
     <div>
-      {message}
+      { JSON.stringify(products) }
     </div>
   )
 }
