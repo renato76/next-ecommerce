@@ -1,5 +1,5 @@
 import type { InferGetStaticPropsType } from "next"
-import getAllProducts from "../framework/shopify/product/get-all-products"
+import getAllProducts from "@framework/product/get-all-products"
 
 // getStaticProps pre-renders the page at build time
 export async function getStaticProps() {
