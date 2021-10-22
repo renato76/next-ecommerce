@@ -1,12 +1,24 @@
-
-
 const path = require("path")
 const fs = require("fs")
 const merge = require("deepmerge")
 const prettier = require("prettier")
 
+const ALLOWED_FW = ["shopify", "bigcommerce", "shopify_local"]
+
 function withFrameworkConfig(defaultConfig = {}) {
-  const framework  = defaultConfig?.framework.name
+  let framework  = defaultConfig?.framework?.name
+
+  if(!framework) {
+    throw new Error("The api framework is missing, please add a valid provider!")
+  }
+
+  if(!ALLOWED_FW.includes(framework)) {
+    throw new Error(`The api framework ${framework} cannot be found, please use one of ${ALLOWED_FW.join(", ")}.`)
+  }
+
+  if(framework === "shopify_local") {
+    framework = "shopify"
+  }
 
   const frameworkNextConfig = require(path.join("../", framework, "next.config"))
   const config = merge(defaultConfig, frameworkNextConfig)
