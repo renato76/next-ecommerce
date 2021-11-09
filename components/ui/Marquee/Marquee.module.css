@@ -1,5 +1,4 @@
 .root {
-  @apply flex justify-center items-center;
   height: 320px;
 }
 
