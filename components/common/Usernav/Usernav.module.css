@@ -7,7 +7,7 @@
           transition;
 
   &:hover {
-    @apply text-accents-6 transition scale-110 duration-200;
+    @apply text-accents-6 scale-110;
   }
 }
 
