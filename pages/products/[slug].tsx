@@ -1,5 +1,3 @@
-
-
 import { Layout } from "@components/common"
 import { getConfig } from "@framework/api/config"
 import {
@@ -24,7 +22,11 @@ export const getStaticProps = async ({
   params }: GetStaticPropsContext<{slug: string}>
 ) => {
   const config = getConfig()
-  const { product } = await getProduct(config)
+
+  const { product } = await getProduct({
+    config,
+    variables: {slug: params?.slug}
+  })
 
   return {
     props: {
@@ -43,6 +45,5 @@ export default function ProductSlug({
     </div>
   )
 }
-
 
 ProductSlug.Layout = Layout
