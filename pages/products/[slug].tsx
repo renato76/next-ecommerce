@@ -40,8 +40,7 @@ export default function ProductSlug({
 ) {
   return (
     <div>
-      {product.name}
-      {product.slug}
+      {JSON.stringify(product, null, 2)}
     </div>
   )
 }
