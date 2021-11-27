@@ -4,7 +4,8 @@ import {
   MoneyV2,
   Product as ShopifyProduct,
   ProductOption,
-  ProductVariantConnection
+  ProductVariantConnection,
+  SelectedOption
 } from "../schema"
 
 import { Product } from "@common/types/product"
@@ -33,7 +34,8 @@ const normalizeProductOption = ({
       let output: any = {
         label: value
       }
-      if(displayName.match(/color?r/gi)) {
+
+      if (displayName.match(/colou?r/gi)) {
         output = {
           ...output,
           hexColor: value
@@ -58,7 +60,16 @@ const normalizeProductVariants = ({ edges }: ProductVariantConnection) => {
       sku: sku || id,
       price: +priceV2.amount,
       listPrice: +compareAtPriceV2?.amount,
-      requiresShipping: true
+      requiresShipping: true,
+      options: selectedOptions.map(({name, value}: SelectedOption) => {
+        const option = normalizeProductOption({
+          id,
+          name,
+          values: [value]
+        })
+
+        return option
+      })
     }
   })
 }
@@ -89,7 +100,7 @@ export function normalizeProduct(productNode: ShopifyProduct): Product {
     options: options ?
       options.filter(o => o.name !== "Title")
             .map(o => normalizeProductOption(o)) : [],
-      variants: variants ?
+    variants: variants ?
       normalizeProductVariants(variants) : [],
     ...rest
   }

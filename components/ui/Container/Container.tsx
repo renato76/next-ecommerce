@@ -1,3 +1,4 @@
+import React from 'react'
 import { ReactNode, FC, ComponentType, HTMLAttributes } from "react"
 
 interface Props {
